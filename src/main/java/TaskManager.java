@@ -2,8 +2,8 @@ public class TaskManager {
     private Task[] tasks = new Task[100];
     private int taskCounter = 0;
 
-    public void addTask(String task) {
-        tasks[taskCounter] = new Task(task);
+    public void addTask(String task, String type, String date) {
+        tasks[taskCounter] = new Task(task, type, date);
         taskCounter++;
     }
 
@@ -36,10 +36,17 @@ public class TaskManager {
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < taskCounter; i++) {
             System.out.print((i + 1) + ".");
-            printCompleted(tasks[i].getCompleted());
-            System.out.println(" " + tasks[i].getTask());
+            tasks[i].printTask();
         }
         PrintLine.printLine();
+    }
+
+    public void printTask (int i) {
+        tasks[i].printTask();
+    }
+
+    public int getTaskCounter () {
+        return taskCounter;
     }
 
 }
