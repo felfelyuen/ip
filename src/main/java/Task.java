@@ -1,14 +1,14 @@
 public class Task {
-    private String task;
-    private boolean isCompleted;
-    private String type;
-    private String date;
+    protected String task;
+    protected boolean isCompleted;
+    protected String type;
+    //protected String date;
 
-    public Task(String task, String type, String date) {
+    public Task(String task, String type) {
         this.task = task;
         this.isCompleted = false;
         this.type = type;
-        this.date = date;
+        //this.date = date;
     }
 
     public String getTask() {
@@ -16,8 +16,6 @@ public class Task {
     }
 
     public String getType() { return type; }
-
-    public String getDate() { return date; }
 
     public boolean getCompleted() {
         return isCompleted;
@@ -29,26 +27,5 @@ public class Task {
 
     public void setType(String type) { this.type = type; }
 
-    public void setDate(String date) { this.date = date; }
-
-    public void printTask() {
-        //print the task type
-        if (type.equals("todo")) {
-            System.out.print("[T]"); //to-do
-        } else if (type.equals("event")) {
-            System.out.print("[E]"); //event
-        } else {
-            System.out.print("[D]"); //deadline
-        }
-
-        //print completed? state
-        if (isCompleted) {
-            System.out.print("[X] ");
-        } else {
-            System.out.print("[ ] ");
-        }
-
-        System.out.print(task);
-        System.out.println(" " + date);
-    }
+    public void printTask() {}
 }
