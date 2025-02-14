@@ -1,6 +1,7 @@
 public class TaskManager {
 
-    private Task[] tasks = new Task[100];
+    static final int TASKLISTNUMBER = 100;
+    private Task[] tasks = new Task[TASKLISTNUMBER];
     private int taskCounter = 0;
 
     public static String addStrings (String[] array, int startIndex, int endIndex) {
@@ -24,42 +25,91 @@ public class TaskManager {
     public void addTask(String[] commands, String type) {
         String task;
         String date;
-        switch (type) {
-        case "todo":
-            task = addStrings(commands, 1, commands.length -1);
-            tasks[taskCounter] = new Todo(task, type);
-            break;
-        case "deadline":
-            int byIndex = search(commands, "/by");
-            task = addStrings(commands, 1, byIndex - 1);
-            date = "(by: " + addStrings(commands, byIndex + 1, commands.length -1) + ")";
-            tasks[taskCounter] = new Deadline(task, type, date);
-            break;
-        case "event":
-            int fromIndex = search(commands, "/from");
-            int toIndex = search(commands, "/to");
-            task = addStrings(commands, 1, fromIndex - 1);
-            date = "(from: " + addStrings(commands, fromIndex + 1, toIndex -1)
-                    + " to: " + addStrings(commands, toIndex + 1, commands.length -1) + ")";
-            tasks[taskCounter] = new Event(task, type, date);
+        try {
+            switch (type) {
+            case "todo":
+                if (commands.length == 1) {
+                    throw new MissingTaskException();
+                }
+                task = addStrings(commands, 1, commands.length - 1);
+                tasks[taskCounter] = new Todo(task, type);
+                break;
+            case "deadline":
+                int byIndex = search(commands, "/by");
+                if (byIndex == 1) {
+                    throw new MissingTaskException();
+                }
+                if (byIndex == -1) {
+                    throw new MissingDateIndicatorException();
+                }
+                if (byIndex == commands.length - 1) {
+                    throw new MissingDateException();
+                }
+
+                task = addStrings(commands, 1, byIndex - 1);
+                date = "(by: " + addStrings(commands, byIndex + 1, commands.length - 1) + ")";
+                tasks[taskCounter] = new Deadline(task, type, date);
+                break;
+            case "event":
+                int fromIndex = search(commands, "/from");
+                int toIndex = search(commands, "/to");
+                if (fromIndex == 1) {
+                    throw new MissingTaskException();
+                }
+                if (fromIndex == -1 || toIndex == -1) {
+                    throw new MissingDateIndicatorException();
+                }
+                if (toIndex == commands.length - 1 || fromIndex == toIndex - 1) {
+                    throw new MissingDateException();
+                }
+                task = addStrings(commands, 1, fromIndex - 1);
+                date = "(from: " + addStrings(commands, fromIndex + 1, toIndex - 1)
+                        + " to: " + addStrings(commands, toIndex + 1, commands.length - 1) + ")";
+                tasks[taskCounter] = new Event(task, type, date);
+                break;
+            }
+            taskCounter++;
+
+            Printer.printLine();
+            System.out.println("Okay, I added it here, should I add 'touch grass' to the list as well?");
+            printTask(taskCounter - 1);
+            System.out.print("Now you have " + taskCounter + " task");
+            if (taskCounter != 1) {
+                System.out.print("s");
+            }
+            System.out.println(" in the list");
+            Printer.printLine();
+
+        } catch (MissingTaskException e) {
+            Printer.printError("There's no task??? What do you want me to do lol");
+        } catch (MissingDateIndicatorException e) {
+            Printer.printError("You are missing some indicators... so what date do you want");
+        } catch (MissingDateException e) {
+            Printer.printError("Where's your date... does time not affect you or—");
         }
 
-        taskCounter++;
     }
 
     public void markAsCompleted(int i, boolean completed) {
-        tasks[i].setCompleted(completed);
-        if (completed) {
-            Printer.printLine();
-            System.out.println("Nice! I've marked this task as done:");
-            System.out.println("[X] " + tasks[i].getTask());
-            Printer.printLine();
-        } else {
-            Printer.printLine();
-            System.out.println("OK, I've marked this task as not done yet:");
-            System.out.println("[ ] " + tasks[i].getTask());
-            System.out.println("Get to work!");
-            Printer.printLine();
+        try {
+            if (i > taskCounter) {
+                throw new MarkNullTaskException();
+            }
+            tasks[i].setCompleted(completed);
+            if (completed) {
+                Printer.printLine();
+                System.out.println("Nice! I've marked this task as done:");
+                System.out.println("[X] " + tasks[i].getTask());
+                Printer.printLine();
+            } else {
+                Printer.printLine();
+                System.out.println("OK, I've marked this task as not done yet:");
+                System.out.println("[ ] " + tasks[i].getTask());
+                System.out.println("Get to work!");
+                Printer.printLine();
+            }
+        } catch (MarkNullTaskException e) {
+            Printer.printError("We don't have that task to mark... are you okay");
         }
     }
 
