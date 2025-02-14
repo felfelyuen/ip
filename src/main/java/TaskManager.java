@@ -39,7 +39,8 @@ public class TaskManager {
             int fromIndex = search(commands, "/from");
             int toIndex = search(commands, "/to");
             task = addStrings(commands, 1, fromIndex - 1);
-            date = "(from: " + addStrings(commands, fromIndex + 1, toIndex -1) + " to: " + addStrings(commands, toIndex + 1, commands.length -1) + ")";
+            date = "(from: " + addStrings(commands, fromIndex + 1, toIndex -1)
+                    + " to: " + addStrings(commands, toIndex + 1, commands.length -1) + ")";
             tasks[taskCounter] = new Event(task, type, date);
         }
 

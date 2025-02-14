@@ -2,8 +2,6 @@ import java.util.Scanner;
 
 public class Harry {
 
-
-
     public static void processAdding (TaskManager list, String[] commands) {
         list.addTask(commands, commands[0]);
 
@@ -26,25 +24,25 @@ public class Harry {
             String [] commands = line.split(" ");
             switch (commands[0]) {
             case "bye" :
-            Printer.printGoodbye();
-            return;
+                Printer.printGoodbye();
+                return;
             case "list" :
-            list.printTasks();
-            break;
+                list.printTasks();
+                break;
             //mark and unmark assumes that the number is a number aka "2" and not "2words"
             //TODO add throw exception for if non-number is in commands[1]
             case "mark":
-            if (commands.length == 2) {
-                list.markAsCompleted(Integer.parseInt(commands[1]), true);
-            }
-            break;
+                if (commands.length == 2) {
+                    list.markAsCompleted(Integer.parseInt(commands[1]), true);
+                }
+                break;
             case "unmark":
-            if (commands.length == 2) {
-                list.markAsCompleted(Integer.parseInt(commands[1]), false);
-            }
-            break;
+                if (commands.length == 2) {
+                    list.markAsCompleted(Integer.parseInt(commands[1]), false);
+                }
+                break;
             default:
-            processAdding(list, commands);
+                processAdding(list, commands);
             break;
             }
         }

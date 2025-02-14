@@ -17,7 +17,7 @@ public class Task {
 
     public String getType() { return type; }
 
-    public boolean getCompleted() {
+    public boolean isCompleted() {
         return isCompleted;
     }
 
