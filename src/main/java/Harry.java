@@ -4,7 +4,7 @@ public class Harry {
 
     public static void processAdding (TaskManager list, String[] commands) {
         list.addTask(commands, commands[0]);
-
+        /*
         Printer.printLine();
         System.out.println("Okay, I added it here, should I add 'touch grass' to the list as well?");
         int counter = list.getTaskCounter();
@@ -15,6 +15,23 @@ public class Harry {
         }
         System.out.println(" in the list");
         Printer.printLine();
+        */
+    }
+
+    public static void processMarking (TaskManager list, String[] commands) {
+        try {
+            int index = Integer.parseInt(commands[1]) - 1;
+            if (commands[0].equals("mark")) {
+                list.markAsCompleted(index, true);
+            } else {
+                list.markAsCompleted(index, false);
+            }
+        } catch (NumberFormatException e) {
+            Printer.printError("That thing after mark is not a number," +
+                    " put something like 'mark 2', instead of... whatever that was");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            Printer.printError("Can you specify what number to mark, i can't do anything");
+        }
     }
 
     public static void processInput(TaskManager list) {
@@ -24,26 +41,27 @@ public class Harry {
             String [] commands = line.split(" ");
             switch (commands[0]) {
             case "bye" :
-                Printer.printGoodbye();
                 return;
             case "list" :
                 list.printTasks();
                 break;
-            //mark and unmark assumes that the number is a number aka "2" and not "2words"
-            //TODO add throw exception for if non-number is in commands[1]
             case "mark":
-                if (commands.length == 2) {
-                    list.markAsCompleted(Integer.parseInt(commands[1]), true);
+            case "unmark":
+                if (commands.length <= 2) {
+                    processMarking(list, commands);
+                } else {
+                    Printer.printError("write 'mark <number>' instead, i don't know what you are doing");
                 }
                 break;
-            case "unmark":
-                if (commands.length == 2) {
-                    list.markAsCompleted(Integer.parseInt(commands[1]), false);
-                }
+            case "todo":
+            case "deadline":
+            case "event":
+                processAdding(list, commands);
                 break;
             default:
-                processAdding(list, commands);
-            break;
+                Printer.printError("That's not a valid command, try pressing something like " +
+                        "list or bye or todo or whatever");
+                break;
             }
         }
     }
@@ -54,5 +72,7 @@ public class Harry {
         Printer.printStartingPage();
 
         processInput(taskList);
+
+        Printer.printGoodbye();
     }
 }
