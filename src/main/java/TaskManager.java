@@ -123,10 +123,14 @@ public class TaskManager {
 
     public void printTasks () {
         Printer.printLine();
-        System.out.println("Here are the tasks in your list:");
-        for (int i = 0; i < taskCounter; i++) {
-            System.out.print((i + 1) + ".");
-            tasks[i].printTask();
+        if (taskCounter == 0) {
+            System.out.println("There is nothing in the list lol");
+        } else {
+            System.out.println("Here are the tasks in your list:");
+            for (int i = 0; i < taskCounter; i++) {
+                System.out.print((i + 1) + ".");
+                tasks[i].printTask();
+            }
         }
         Printer.printLine();
     }

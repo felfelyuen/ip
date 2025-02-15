@@ -30,7 +30,7 @@ public class Harry {
             Printer.printError("That thing after mark is not a number," +
                     " put something like 'mark 2', instead of... whatever that was");
         } catch (ArrayIndexOutOfBoundsException e) {
-            Printer.printError("Can you specify what number to mark, i can't do anythingmark");
+            Printer.printError("Can you specify what number to mark, i can't do anything");
         }
     }
 
@@ -41,7 +41,6 @@ public class Harry {
             String [] commands = line.split(" ");
             switch (commands[0]) {
             case "bye" :
-                Printer.printGoodbye();
                 return;
             case "list" :
                 list.printTasks();
@@ -51,7 +50,7 @@ public class Harry {
                 if (commands.length <= 2) {
                     processMarking(list, commands);
                 } else {
-                    processAdding(list, commands);
+                    Printer.printError("write 'mark <number>' instead, i don't know what you are doing");
                 }
                 break;
             case "todo":
@@ -60,7 +59,7 @@ public class Harry {
                 processAdding(list, commands);
                 break;
             default:
-                Printer.printError("That's not a valid command, try pressing something like" +
+                Printer.printError("That's not a valid command, try pressing something like " +
                         "list or bye or todo or whatever");
                 break;
             }
@@ -73,5 +72,7 @@ public class Harry {
         Printer.printStartingPage();
 
         processInput(taskList);
+
+        Printer.printGoodbye();
     }
 }
