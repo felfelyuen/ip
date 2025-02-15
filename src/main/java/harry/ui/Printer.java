@@ -1,3 +1,5 @@
+package harry.ui;
+
 public class Printer {
     public static void printLine() {
         for (int i = 0; i < 40; i++) {

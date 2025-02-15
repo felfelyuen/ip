@@ -1,3 +1,11 @@
+package harry.ui;
+
+import harry.exceptions.*;
+import harry.tasks.Deadline;
+import harry.tasks.Event;
+import harry.tasks.Task;
+import harry.tasks.Todo;
+
 public class TaskManager {
 
     static final int TASKLISTNUMBER = 100;
@@ -92,7 +100,7 @@ public class TaskManager {
 
     public void markAsCompleted(int i, boolean completed) {
         try {
-            if (i > taskCounter) {
+            if (i + 1 > taskCounter) {
                 throw new MarkNullTaskException();
             }
             tasks[i].setCompleted(completed);

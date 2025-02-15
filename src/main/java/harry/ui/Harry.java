@@ -1,3 +1,5 @@
+package harry.ui;
+
 import java.util.Scanner;
 
 public class Harry {
@@ -5,7 +7,7 @@ public class Harry {
     public static void processAdding (TaskManager list, String[] commands) {
         list.addTask(commands, commands[0]);
         /*
-        Printer.printLine();
+        harry.ui.Printer.printLine();
         System.out.println("Okay, I added it here, should I add 'touch grass' to the list as well?");
         int counter = list.getTaskCounter();
         list.printTask(counter - 1);
@@ -14,7 +16,7 @@ public class Harry {
             System.out.print("s");
         }
         System.out.println(" in the list");
-        Printer.printLine();
+        harry.ui.Printer.printLine();
         */
     }
 

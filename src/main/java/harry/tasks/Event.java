@@ -1,4 +1,6 @@
-public class Event extends Task{
+package harry.tasks;
+
+public class Event extends Task {
     protected String date;
 
     public Event (String task, String type, String date) {

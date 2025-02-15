@@ -1,4 +1,6 @@
-public class Deadline extends Task{
+package harry.tasks;
+
+public class Deadline extends Task {
     protected String date;
 
     public Deadline (String task, String type,String date) {
