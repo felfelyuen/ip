@@ -1,3 +1,5 @@
+package harry.tasks;
+
 public class Task {
     protected String task;
     protected boolean isCompleted;

@@ -1,4 +1,6 @@
-public class Todo extends Task{
+package harry.tasks;
+
+public class Todo extends Task {
     public Todo (String task, String type) {
         super(task, type);
     }
