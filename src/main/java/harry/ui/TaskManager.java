@@ -12,10 +12,10 @@ public class TaskManager {
     private Task[] tasks = new Task[TASKLISTNUMBER];
     private int taskCounter = 0;
 
-    public static String addStrings (String[] array, int startIndex, int endIndex) {
+    public static String addSpaces(String[] array, int startIndex, int endIndex) {
         String result = "";
-        for (int i = startIndex; i < endIndex - 1; i++) {
-            result += array[startIndex] + " ";
+        for (int i = startIndex; i < endIndex; i++) {
+            result += array[i] + " ";
         }
         result += array[endIndex];
         return result;
@@ -39,8 +39,8 @@ public class TaskManager {
                 if (commands.length == 1) {
                     throw new MissingTaskException();
                 }
-                task = addStrings(commands, 1, commands.length - 1);
-                tasks[taskCounter] = new Todo(task, type);
+                task = addSpaces(commands, 1, commands.length - 1);
+                tasks[taskCounter] = new Todo(task, false, type);
                 break;
             case "deadline":
                 int byIndex = search(commands, "/by");
@@ -54,9 +54,9 @@ public class TaskManager {
                     throw new MissingDateException();
                 }
 
-                task = addStrings(commands, 1, byIndex - 1);
-                date = "(by: " + addStrings(commands, byIndex + 1, commands.length - 1) + ")";
-                tasks[taskCounter] = new Deadline(task, type, date);
+                task = addSpaces(commands, 1, byIndex - 1);
+                date = "(by: " + addSpaces(commands, byIndex + 1, commands.length - 1) + ")";
+                tasks[taskCounter] = new Deadline(task, false, type, date);
                 break;
             case "event":
                 int fromIndex = search(commands, "/from");
@@ -70,10 +70,10 @@ public class TaskManager {
                 if (toIndex == commands.length - 1 || fromIndex == toIndex - 1) {
                     throw new MissingDateException();
                 }
-                task = addStrings(commands, 1, fromIndex - 1);
-                date = "(from: " + addStrings(commands, fromIndex + 1, toIndex - 1)
-                        + " to: " + addStrings(commands, toIndex + 1, commands.length - 1) + ")";
-                tasks[taskCounter] = new Event(task, type, date);
+                task = addSpaces(commands, 1, fromIndex - 1);
+                date = "(from: " + addSpaces(commands, fromIndex + 1, toIndex - 1)
+                        + " to: " + addSpaces(commands, toIndex + 1, commands.length - 1) + ")";
+                tasks[taskCounter] = new Event(task, false, type, date);
                 break;
             }
             taskCounter++;
@@ -96,6 +96,11 @@ public class TaskManager {
             Printer.printError("Where's your date... does time not affect you or—");
         }
 
+    }
+
+    public void addTask (Task task) {
+        tasks[taskCounter] = task;
+        taskCounter++;
     }
 
     public void markAsCompleted(int i, boolean completed) {
@@ -149,6 +154,10 @@ public class TaskManager {
 
     public int getTaskCounter () {
         return taskCounter;
+    }
+
+    public Task getTask (int i) {
+        return tasks[i];
     }
 
 }

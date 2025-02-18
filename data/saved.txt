@@ -1,0 +1,7 @@
+todo//0//jimmm
+event//0//sdfljsdf//(from: sdflf to: sdfs)
+todo//0//dinner
+todo//0//make make 9pm
+deadline//0//1 1 1 1 1 7//(by: dfsfskdjf dfsfskdjf dfsfskdjf sdf)
+todo//0//make dinner 9pm
+todo//0//make dinner at 9pm

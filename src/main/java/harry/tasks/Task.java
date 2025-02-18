@@ -4,13 +4,11 @@ public class Task {
     protected String task;
     protected boolean isCompleted;
     protected String type;
-    //protected String date;
 
-    public Task(String task, String type) {
+    public Task(String task, boolean isCompleted, String type) {
         this.task = task;
         this.isCompleted = false;
         this.type = type;
-        //this.date = date;
     }
 
     public String getTask() {
