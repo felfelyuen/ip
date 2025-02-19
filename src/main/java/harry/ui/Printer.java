@@ -47,16 +47,4 @@ public class Printer {
         printLine();
     }
 
-    public static void printTaskAdded (TaskManager list) {
-        printLine();
-        System.out.println("Okay, I added it here, should I add 'touch grass' to the list as well?");
-        int counter = list.getTaskCounter();
-        list.printTask(counter - 1);
-        System.out.print("Now you have " + counter + " task");
-        if (counter != 1) {
-            System.out.print("s");
-        }
-        System.out.println(" in the list");
-        printLine();
-    }
 }

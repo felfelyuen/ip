@@ -5,12 +5,12 @@ import harry.tasks.Deadline;
 import harry.tasks.Event;
 import harry.tasks.Task;
 import harry.tasks.Todo;
+import java.util.ArrayList;
 
 public class TaskManager {
 
-    static final int TASKLISTNUMBER = 100;
-    private Task[] tasks = new Task[TASKLISTNUMBER];
-    private int taskCounter = 0;
+    private ArrayList<Task> tasks = new ArrayList<>();
+    //private int taskCounter = 0;
 
     public static String addStrings (String[] array, int startIndex, int endIndex) {
         String result = "";
@@ -30,17 +30,17 @@ public class TaskManager {
         return -1;
     }
 
-    public void addTask(String[] commands, String type) {
+    public void addTask(String[] commands, String type)
+            throws MissingTaskException, MissingDateIndicatorException, MissingDateException{
         String task;
         String date;
-        try {
             switch (type) {
             case "todo":
                 if (commands.length == 1) {
                     throw new MissingTaskException();
                 }
                 task = addStrings(commands, 1, commands.length - 1);
-                tasks[taskCounter] = new Todo(task, type);
+                tasks.add(new Todo(task, type));
                 break;
             case "deadline":
                 int byIndex = search(commands, "/by");
@@ -56,7 +56,7 @@ public class TaskManager {
 
                 task = addStrings(commands, 1, byIndex - 1);
                 date = "(by: " + addStrings(commands, byIndex + 1, commands.length - 1) + ")";
-                tasks[taskCounter] = new Deadline(task, type, date);
+                tasks.add(new Deadline(task, type, date));
                 break;
             case "event":
                 int fromIndex = search(commands, "/from");
@@ -73,82 +73,70 @@ public class TaskManager {
                 task = addStrings(commands, 1, fromIndex - 1);
                 date = "(from: " + addStrings(commands, fromIndex + 1, toIndex - 1)
                         + " to: " + addStrings(commands, toIndex + 1, commands.length - 1) + ")";
-                tasks[taskCounter] = new Event(task, type, date);
+                tasks.add(new Event(task, type, date));
                 break;
             }
-            taskCounter++;
 
             Printer.printLine();
             System.out.println("Okay, I added it here, should I add 'touch grass' to the list as well?");
-            printTask(taskCounter - 1);
-            System.out.print("Now you have " + taskCounter + " task");
-            if (taskCounter != 1) {
+            tasks.get(tasks.size() - 1).printTask();
+            System.out.print("Now you have " + tasks.size() + " task");
+            if (tasks.size() != 1) {
                 System.out.print("s");
             }
             System.out.println(" in the list");
             Printer.printLine();
-
-        } catch (MissingTaskException e) {
-            Printer.printError("There's no task??? What do you want me to do lol");
-        } catch (MissingDateIndicatorException e) {
-            Printer.printError("You are missing some indicators... so what date do you want");
-        } catch (MissingDateException e) {
-            Printer.printError("Where's your date... does time not affect you or—");
-        }
-
     }
 
-    public void markAsCompleted(int i, boolean completed) {
-        try {
-            if (i + 1 > taskCounter) {
-                throw new MarkNullTaskException();
+    public void markAsCompleted (int i, boolean completed) throws HandleNullTaskException {
+            if (i + 1 > tasks.size()) {
+                throw new HandleNullTaskException();
             }
-            tasks[i].setCompleted(completed);
+            tasks.get(i).setCompleted(completed);
             if (completed) {
                 Printer.printLine();
                 System.out.println("Nice! I've marked this task as done:");
-                System.out.println("[X] " + tasks[i].getTask());
+                tasks.get(i).printTask();
                 Printer.printLine();
             } else {
                 Printer.printLine();
                 System.out.println("OK, I've marked this task as not done yet:");
-                System.out.println("[ ] " + tasks[i].getTask());
+                tasks.get(i).printTask();
                 System.out.println("Get to work!");
                 Printer.printLine();
             }
-        } catch (MarkNullTaskException e) {
-            Printer.printError("We don't have that task to mark... are you okay");
-        }
     }
 
-    public void printCompleted(boolean completed) {
-        if (completed) {
-            System.out.print("[X]");
-        } else {
-            System.out.print("[ ]");
+    public void deleteTask(int i) throws HandleNullTaskException{
+        if (i + 1 > tasks.size()) {
+            throw new HandleNullTaskException();
         }
+
+        Printer.printLine();
+        System.out.println("Oh wow congrats, I've deleted this task");
+        tasks.get(i).printTask();
+        System.out.println("And many happy returns to you too");
+        Printer.printLine();
+
+        tasks.remove(i);
     }
 
     public void printTasks () {
         Printer.printLine();
-        if (taskCounter == 0) {
+        if (tasks.size() == 0) {
             System.out.println("There is nothing in the list lol");
         } else {
             System.out.println("Here are the tasks in your list:");
-            for (int i = 0; i < taskCounter; i++) {
+            for (int i = 0; i < tasks.size(); i++) {
                 System.out.print((i + 1) + ".");
-                tasks[i].printTask();
+                tasks.get(i).printTask();
             }
         }
         Printer.printLine();
     }
 
     public void printTask (int i) {
-        tasks[i].printTask();
-    }
-
-    public int getTaskCounter () {
-        return taskCounter;
+        tasks.get(i).printTask();
     }
 
 }
