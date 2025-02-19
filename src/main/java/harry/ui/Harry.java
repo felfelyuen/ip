@@ -12,6 +12,7 @@ public class Harry {
     public static void processAdding (TaskManager list, String[] commands) {
         try {
             list.addTask(commands, commands[0]);
+            HandleFile.SaveList(list);
         } catch (MissingTaskException e) {
             Printer.printError("There's no task??? What do you want me to do lol");
         } catch (MissingDateIndicatorException e) {
@@ -24,11 +25,8 @@ public class Harry {
     public static void processMarking (TaskManager list, String[] commands) {
         try {
             int index = Integer.parseInt(commands[1]) - 1;
-            if (commands[0].equals("mark")) {
-                list.markAsCompleted(index, true);
-            } else {
-                list.markAsCompleted(index, false);
-            }
+            list.markAsCompleted(index, commands[0].equals("mark"));
+            HandleFile.SaveList(list);
         } catch (NumberFormatException e) {
             Printer.printError("That thing after mark is not a number," +
                     " put something like 'mark 2', instead of... whatever that was");
@@ -93,9 +91,9 @@ public class Harry {
     }
 
     public static void main(String[] args) {
-        TaskManager taskList = new TaskManager();
-
         Printer.printStartingPage();
+
+        TaskManager taskList = HandleFile.retrieveTasks();
 
         processInput(taskList);
 

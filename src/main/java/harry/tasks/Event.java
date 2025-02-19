@@ -3,8 +3,8 @@ package harry.tasks;
 public class Event extends Task {
     protected String date;
 
-    public Event (String task, String type, String date) {
-        super(task, type);
+    public Event (String task, boolean isCompleted, String type, String date) {
+        super(task, isCompleted, type);
         this.date = date;
     }
 

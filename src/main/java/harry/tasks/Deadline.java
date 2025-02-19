@@ -3,8 +3,8 @@ package harry.tasks;
 public class Deadline extends Task {
     protected String date;
 
-    public Deadline (String task, String type,String date) {
-        super(task, type);
+    public Deadline (String task, boolean isCompleted, String type, String date) {
+        super(task, isCompleted, type);
         this.date = date;
     }
 

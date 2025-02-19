@@ -1,8 +1,8 @@
 package harry.tasks;
 
 public class Todo extends Task {
-    public Todo (String task, String type) {
-        super(task, type);
+    public Todo (String task, boolean isCompleted, String type) {
+        super(task, isCompleted, type);
     }
 
     @Override
