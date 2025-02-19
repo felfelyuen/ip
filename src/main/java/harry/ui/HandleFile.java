@@ -1,5 +1,6 @@
 package harry.ui;
 
+import harry.exceptions.CorruptedFileException;
 import harry.tasks.Deadline;
 import harry.tasks.Event;
 import harry.tasks.Task;
@@ -44,18 +45,32 @@ public class HandleFile {
                     tasks.addTask(todo);
                     break;
                 case "deadline":
+                    if (!(parts[3].contains("by:"))) {
+                        throw new CorruptedFileException();
+                    }
                     Deadline deadline = new Deadline(parts[2], isCompleted, "deadline", parts[3]);
                     tasks.addTask(deadline);
                     break;
                 case "event":
+                    if ((!parts[3].contains("from:")) || (!parts[3].contains("to:"))) {
+                        throw new CorruptedFileException();
+                    }
                     Event event = new Event(parts[2], isCompleted,"event", parts[3]);
                     tasks.addTask(event);
                     break;
+                default:
+                    throw new CorruptedFileException();
                 }
             }
             return tasks;
         } catch (FileNotFoundException e) {
             return tasks;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            Printer.printError("Error reading file, so no save file is loaded");
+            return new TaskManager();
+        } catch (CorruptedFileException e) {
+            Printer.printError("The file might be corrupted, no saved list will be loaded");
+            return new TaskManager();
         }
     }
 

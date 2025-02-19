@@ -69,9 +69,9 @@ public class Harry {
     }
 
     public static void main(String[] args) {
-        TaskManager taskList = HandleFile.retrieveTasks();
-
         Printer.printStartingPage();
+
+        TaskManager taskList = HandleFile.retrieveTasks();
 
         processInput(taskList);
 
