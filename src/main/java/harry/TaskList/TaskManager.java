@@ -1,10 +1,8 @@
-package harry.ui;
+package harry.TaskList;
 
-import harry.exceptions.*;
-import harry.tasks.Deadline;
-import harry.tasks.Event;
-import harry.tasks.Task;
-import harry.tasks.Todo;
+import harry.Exceptions.*;
+import harry.Printer.Printer;
+
 import java.util.ArrayList;
 
 public class TaskManager {

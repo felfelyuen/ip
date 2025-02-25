@@ -1,9 +1,9 @@
-package harry.tasks;
+package harry.TaskList;
 
-public class Event extends Task {
+public class Deadline extends Task {
     protected String date;
 
-    public Event (String task, boolean isCompleted, String type, String date) {
+    public Deadline (String task, boolean isCompleted, String type, String date) {
         super(task, isCompleted, type);
         this.date = date;
     }
@@ -14,7 +14,7 @@ public class Event extends Task {
 
     @Override
     public void printTask() {
-        System.out.print("[E]");
+        System.out.print("[D]");
         if (isCompleted) {
             System.out.print("[X] ");
         } else {

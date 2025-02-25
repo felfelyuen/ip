@@ -1,9 +1,9 @@
-package harry.ui;
+package harry.Printer;
 
 public class Printer {
     public static void printLine() {
         for (int i = 0; i < 40; i++) {
-            System.out.print("―");
+            System.out.print("-");
         }
         System.out.println();
     }

@@ -1,10 +1,12 @@
-package harry.ui;
+package harry.Storage;
 
-import harry.exceptions.CorruptedFileException;
-import harry.tasks.Deadline;
-import harry.tasks.Event;
-import harry.tasks.Task;
-import harry.tasks.Todo;
+import harry.Exceptions.CorruptedFileException;
+import harry.TaskList.Deadline;
+import harry.TaskList.Event;
+import harry.TaskList.Task;
+import harry.TaskList.Todo;
+import harry.Printer.Printer;
+import harry.TaskList.TaskManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,7 +28,7 @@ public class HandleFile {
 
     public static TaskManager retrieveTasks() {
         TaskManager tasks;
-        File f = new File("./data/saved.txt");
+        File f = new File("./saved.txt");
         tasks = reformatFile(f);
         return tasks;
     }
@@ -75,11 +77,11 @@ public class HandleFile {
     }
 
     public static void SaveList(TaskManager tasks) {
-        File f = new File("./data/saved.txt");
+        File f = new File("./saved.txt");
         try {
             f.createNewFile();
             String formattedTasks = formatTasks(tasks);
-            FileWriter fw = new FileWriter("./data/saved.txt");
+            FileWriter fw = new FileWriter("./saved.txt");
             fw.write(formattedTasks);
             fw.close();
         } catch (IOException e) {

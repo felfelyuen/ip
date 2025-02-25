@@ -1,4 +1,4 @@
-package harry.tasks;
+package harry.TaskList;
 
 public class Todo extends Task {
     public Todo (String task, boolean isCompleted, String type) {

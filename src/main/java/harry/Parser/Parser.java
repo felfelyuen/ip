@@ -1,13 +1,16 @@
-package harry.ui;
+package harry.Parser;
 
-import harry.exceptions.HandleNullTaskException;
-import harry.exceptions.MissingDateException;
-import harry.exceptions.MissingDateIndicatorException;
-import harry.exceptions.MissingTaskException;
+import harry.Storage.HandleFile;
+import harry.TaskList.TaskManager;
+import harry.Exceptions.HandleNullTaskException;
+import harry.Exceptions.MissingDateException;
+import harry.Exceptions.MissingDateIndicatorException;
+import harry.Exceptions.MissingTaskException;
+import harry.Printer.Printer;
 
 import java.util.Scanner;
 
-public class Harry {
+public class Parser {
 
     public static void processAdding (TaskManager list, String[] commands) {
         try {
@@ -41,6 +44,7 @@ public class Harry {
         try {
             int index = Integer.parseInt(commands[1]) - 1;
             list.deleteTask(index);
+            HandleFile.SaveList(list);
         } catch (NumberFormatException e) {
             Printer.printError("That thing after delete is not a number," +
                     " put something like 'delete 2', instead of... whatever that was");
@@ -88,15 +92,5 @@ public class Harry {
                 break;
             }
         }
-    }
-
-    public static void main(String[] args) {
-        Printer.printStartingPage();
-
-        TaskManager taskList = HandleFile.retrieveTasks();
-
-        processInput(taskList);
-
-        Printer.printGoodbye();
     }
 }

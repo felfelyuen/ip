@@ -1,4 +1,4 @@
-package harry.tasks;
+package harry.TaskList;
 
 public class Task {
     protected String task;
