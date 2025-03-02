@@ -1,16 +1,16 @@
 package harry.TaskList;
 
-public class Deadline extends Task {
-    protected String date;
+import java.time.LocalDateTime;
 
-    public Deadline (String task, boolean isCompleted, String type, String date) {
+public class Deadline extends Task {
+    protected LocalDateTime date;
+
+    public Deadline (String task, boolean isCompleted, String type, LocalDateTime date) {
         super(task, isCompleted, type);
         this.date = date;
     }
 
-    public String getDate() { return date; }
-
-    public void setDate(String date) { this.date = date; }
+    public LocalDateTime getDate() { return date; }
 
     @Override
     public void printTask() {
@@ -20,7 +20,8 @@ public class Deadline extends Task {
         } else {
             System.out.print("[ ] ");
         }
-        System.out.print(task);
-        System.out.println(" " + date);
+        System.out.print(task + " by: ");
+        HandleDate.PrintDate(date);
+        System.out.println();
     }
 }

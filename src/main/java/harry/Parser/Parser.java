@@ -8,6 +8,7 @@ import harry.Exceptions.MissingDateIndicatorException;
 import harry.Exceptions.MissingTaskException;
 import harry.Printer.Printer;
 
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class Parser {
@@ -22,6 +23,8 @@ public class Parser {
             Printer.printError("You are missing some indicators... so what date do you want");
         } catch (MissingDateException e) {
             Printer.printError("Where's your date... does time not affect you or—");
+        } catch (DateTimeParseException | ArrayIndexOutOfBoundsException | StringIndexOutOfBoundsException e ) {
+            Printer.printError("the date seems off... type it in 'YYYY-MM-DD HH:MM' format");
         }
     }
 

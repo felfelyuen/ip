@@ -1,16 +1,22 @@
 package harry.TaskList;
 
-public class Event extends Task {
-    protected String date;
+import java.time.LocalDateTime;
 
-    public Event (String task, boolean isCompleted, String type, String date) {
+public class Event extends Task {
+    protected LocalDateTime fromDate;
+    protected LocalDateTime toDate;
+
+    public Event (String task, boolean isCompleted, String type, LocalDateTime fromDate, LocalDateTime toDate) {
         super(task, isCompleted, type);
-        this.date = date;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
     }
 
-    public String getDate() { return date; }
+    public LocalDateTime getFromDate() { return fromDate; }
 
-    public void setDate(String date) { this.date = date; }
+    public LocalDateTime getToDate() { return toDate; }
+
+    //public void setDate(LocalDateTime date) { this.date = date; }
 
     @Override
     public void printTask() {
@@ -20,7 +26,10 @@ public class Event extends Task {
         } else {
             System.out.print("[ ] ");
         }
-        System.out.print(task);
-        System.out.println(" " + date);
+        System.out.print(task + " from: ");
+        HandleDate.PrintDate(fromDate);
+        System.out.print("  to: ");
+        HandleDate.PrintDate(toDate);
+        System.out.println();
     }
 }
