@@ -36,7 +36,10 @@ public class TaskManager {
             MissingDateException,
             DateTimeParseException,
             ArrayIndexOutOfBoundsException,
-            StringIndexOutOfBoundsException {
+            InvalidDateFormatException,
+            InvalidDateException,
+            NumberFormatException
+            {
         String task;
             switch (type) {
             case "todo":
@@ -58,7 +61,7 @@ public class TaskManager {
                     throw new MissingDateException();
                 }
                 task = addSpaces(commands, 1, byIndex - 1);
-                LocalDateTime date = HandleDate.parseDate(commands[byIndex + 1] + commands[byIndex + 2]);
+                LocalDateTime date = HandleDate.parseDate(commands[byIndex + 1] + " " + commands[byIndex + 2]);
                 tasks.add(new Deadline(task, false, type, date));
                 break;
             case "event":
@@ -74,8 +77,8 @@ public class TaskManager {
                     throw new MissingDateException();
                 }
                 task = addSpaces(commands, 1, fromIndex - 1);
-                LocalDateTime fromDate = HandleDate.parseDate(commands[fromIndex + 1] + commands[fromIndex + 2]);
-                LocalDateTime toDate = HandleDate.parseDate(commands[toIndex + 1] + commands[toIndex + 2]);
+                LocalDateTime fromDate = HandleDate.parseDate(commands[fromIndex + 1] + " " +  commands[fromIndex + 2]);
+                LocalDateTime toDate = HandleDate.parseDate(commands[toIndex + 1] + " " + commands[toIndex + 2]);
                 tasks.add(new Event(task, false, type, fromDate, toDate));
                 break;
             }
