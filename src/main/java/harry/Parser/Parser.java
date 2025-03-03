@@ -55,6 +55,14 @@ public class Parser {
         }
     }
 
+    public static void processFinding (TaskManager list, String[] commands) {
+        if (commands.length < 2) {
+            Printer.printError("Uh... what do you want me to find");
+            return;
+        }
+        list.printFoundTasks(commands[1]);
+    }
+
     public static void processInput(TaskManager list) {
         while ( true ) {
             Scanner in = new Scanner(System.in);
@@ -65,6 +73,9 @@ public class Parser {
                 return;
             case "list" :
                 list.printTasks();
+                break;
+            case "find" :
+                processFinding(list, commands);
                 break;
             case "mark":
             case "unmark":
