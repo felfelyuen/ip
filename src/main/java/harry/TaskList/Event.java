@@ -1,10 +1,16 @@
 package harry.TaskList;
 
+/**
+ * It corresponds to an event type of task in the user's list of tasks.
+ * Event is inherited from the Task class, but also has the date attribute.
+ * It also clearly defines the printTask for events specifically.
+ */
+
 public class Event extends Task {
     protected String date;
 
-    public Event (String task, boolean isCompleted, String type, String date) {
-        super(task, isCompleted, type);
+    public Event (String taskName, boolean isCompleted, String type, String date) {
+        super(taskName, isCompleted, type);
         this.date = date;
     }
 
@@ -20,7 +26,7 @@ public class Event extends Task {
         } else {
             System.out.print("[ ] ");
         }
-        System.out.print(task);
+        System.out.print(taskName);
         System.out.println(" " + date);
     }
 }

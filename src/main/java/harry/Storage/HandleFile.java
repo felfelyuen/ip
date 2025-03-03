@@ -14,18 +14,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Class of methods to handle saving and loading of a file that contains the task list.
+ * The tasks in the File format is:
+ * TYPE//COMPLETED//TASK//DATE
+ */
+
 public class HandleFile {
-
-    /*
-    The file will be formatted as:
-    type//1//TASK//DATE
+    /**
+     * Retrieves tasks from the saved file, and reformats it with reformatFile.
+     * @return TaskManager object, which contains the list of tasks
      */
-
-    /*
-    TODO: RETRIEVETASKS DOESNT ACTUALLY RETRIEVE ???
-    TODO: SAVELIST DOESNT WORK EXCEPT FOR SOMEHOW ONLY, BYE??? AND ONLY THE FIRST TASK
-     */
-
     public static TaskManager retrieveTasks() {
         TaskManager tasks;
         File f = new File("./saved.txt");
@@ -33,6 +32,11 @@ public class HandleFile {
         return tasks;
     }
 
+    /**
+     * Reformats the file into an array of tasks in Task format.
+     * @param f file to be reformatted.
+     * @return array of tasks.
+     */
     public static TaskManager reformatFile (File f) {
         TaskManager tasks = new TaskManager();
         try {
@@ -76,6 +80,11 @@ public class HandleFile {
         }
     }
 
+    /**
+     * Saves the list of tasks into the file saved.txt
+     * Formats the tasks first to be in the File format.
+     * @param tasks tasks to be saved
+     */
     public static void SaveList(TaskManager tasks) {
         File f = new File("./saved.txt");
         try {
@@ -89,6 +98,11 @@ public class HandleFile {
         }
     }
 
+    /**
+     * Formats tasks into the File format to be saved.
+     * @param tasks list of tasks to be formatted
+     * @return String of formatted tasks to be saved.
+     */
     public static String formatTasks (TaskManager tasks) {
         String result = "";
         String completed;
@@ -99,7 +113,7 @@ public class HandleFile {
             } else {
                 completed = "0";
             }
-            result += task.getType() + "//" + completed + "//" + task.getTask();
+            result += task.getType() + "//" + completed + "//" + task.getTaskName();
             switch (task.getType()) {
             case "deadline" :
                 Deadline deadline = (Deadline) task;

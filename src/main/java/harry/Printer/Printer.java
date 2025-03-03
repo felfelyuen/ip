@@ -1,5 +1,9 @@
 package harry.Printer;
 
+/**
+ * Class of methods to print out messages.
+ * Includes printLine, printLogo, printStartingPage, printGoodbye, printError
+ */
 public class Printer {
     public static void printLine() {
         for (int i = 0; i < 40; i++) {
@@ -25,18 +29,18 @@ public class Printer {
         printLine();
         printLogo();
         printLine();
-        System.out.println("Hello, I'm Harry!\n"
-                + "Your personal helper for... whatever i guess\n"
-                + "What you want?\n"
-                + "P.S: type \"bye\" to exit"
-        );
+        System.out.println(
+                "Hello, I'm Harry!\n" +
+                "Your personal helper for... whatever i guess\n" +
+                "What you want?\n" +
+                "P.S: type \"bye\" to exit");
         printLine();
     }
 
     public static void printGoodbye () {
         printLine();
-        System.out.println("\uD835\uDCD6 \uD835\uDCDE \uD835\uDCDE \uD835\uDCD3 " +
-                "\uD835\uDCD1 \uD835\uDCE8 \uD835\uDCD4 ‼‼‼‼‼\n" +
+        System.out.println(
+                "G O O D B Y E ‼‼‼‼‼\n" +
                 "..finally i was wondering when you would shut u―");
         printLine();
     }

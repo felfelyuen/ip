@@ -5,6 +5,9 @@ import harry.Printer.Printer;
 import harry.Storage.HandleFile;
 import harry.TaskList.TaskManager;
 
+/**
+ * Main UI of the CLI.
+ */
 public class Harry {
     public static void main(String[] args) {
         Printer.printStartingPage();
