@@ -3,12 +3,14 @@ package harry.TaskList;
 import harry.Exceptions.*;
 import harry.Printer.Printer;
 
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
+
 
 public class TaskManager {
 
     private ArrayList<Task> tasks = new ArrayList<>();
-    //private int taskCounter = 0;
 
     public static String addSpaces(String[] array, int startIndex, int endIndex) {
         String result = "";
@@ -29,9 +31,16 @@ public class TaskManager {
     }
 
     public void addTask(String[] commands, String type)
-            throws MissingTaskException, MissingDateIndicatorException, MissingDateException{
+            throws MissingTaskException,
+            MissingDateIndicatorException,
+            MissingDateException,
+            DateTimeParseException,
+            ArrayIndexOutOfBoundsException,
+            InvalidDateFormatException,
+            InvalidDateException,
+            NumberFormatException
+            {
         String task;
-        String date;
             switch (type) {
             case "todo":
                 if (commands.length == 1) {
@@ -51,9 +60,8 @@ public class TaskManager {
                 if (byIndex == commands.length - 1) {
                     throw new MissingDateException();
                 }
-
                 task = addSpaces(commands, 1, byIndex - 1);
-                date = "(by: " + addSpaces(commands, byIndex + 1, commands.length - 1) + ")";
+                LocalDateTime date = HandleDate.parseDate(commands[byIndex + 1] + " " + commands[byIndex + 2]);
                 tasks.add(new Deadline(task, false, type, date));
                 break;
             case "event":
@@ -69,9 +77,9 @@ public class TaskManager {
                     throw new MissingDateException();
                 }
                 task = addSpaces(commands, 1, fromIndex - 1);
-                date = "(from: " + addSpaces(commands, fromIndex + 1, toIndex - 1)
-                        + " to: " + addSpaces(commands, toIndex + 1, commands.length - 1) + ")";
-                tasks.add(new Event(task, false, type, date));
+                LocalDateTime fromDate = HandleDate.parseDate(commands[fromIndex + 1] + " " +  commands[fromIndex + 2]);
+                LocalDateTime toDate = HandleDate.parseDate(commands[toIndex + 1] + " " + commands[toIndex + 2]);
+                tasks.add(new Event(task, false, type, fromDate, toDate));
                 break;
             }
 
@@ -122,14 +130,6 @@ public class TaskManager {
         tasks.remove(i);
     }
 
-    public void printCompleted(boolean completed) {
-        if (completed) {
-            System.out.print("[X]");
-        } else {
-            System.out.print("[ ]");
-        }
-    }
-
     public void printTasks () {
         Printer.printLine();
         if (tasks.isEmpty()) {
@@ -142,10 +142,6 @@ public class TaskManager {
             }
         }
         Printer.printLine();
-    }
-
-    public void printTask (int i) {
-        tasks.get(i).printTask();
     }
 
     public Task getTask (int i) {
