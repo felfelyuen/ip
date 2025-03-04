@@ -152,4 +152,28 @@ public class TaskManager {
         return tasks.size();
     }
 
+    public void printFoundTasks (String keyword) {
+        Printer.printLine();
+
+        int i = 1;
+        if (tasks.isEmpty()) {
+            System.out.println("Your list is empty bro lol");
+            Printer.printLine();
+            return;
+        }
+        System.out.println("Here's your tasks that has that keyword:");
+        for (Task a : tasks) {
+            String task = a.getTask();
+            if (task.contains(keyword)) {
+                System.out.print(i + ".");
+                a.printTask();
+                i++;
+            }
+        }
+        if (i == 1) {
+            System.out.println("Just kidding there is nothing to find idk");
+        }
+        Printer.printLine();
+    }
+
 }
