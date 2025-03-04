@@ -3,7 +3,10 @@ package harry.TaskList;
 import harry.Exceptions.*;
 import harry.Printer.Printer;
 
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
+
 
 /**
  * TaskManager represents the array of tasks that the user has.
@@ -56,9 +59,16 @@ public class TaskManager {
      * @throws MissingDateException If there is no date to be inputted
      */
     public void addTask(String[] commands, String type)
-            throws MissingTaskException, MissingDateIndicatorException, MissingDateException{
+            throws MissingTaskException,
+            MissingDateIndicatorException,
+            MissingDateException,
+            DateTimeParseException,
+            ArrayIndexOutOfBoundsException,
+            InvalidDateFormatException,
+            InvalidDateException,
+            NumberFormatException
+            {
         String task;
-        String date;
         switch (type) {
         case "todo":
             if (commands.length == 1) {
@@ -79,7 +89,7 @@ public class TaskManager {
                 throw new MissingDateException();
             }
             task = addSpaces(commands, 1, byIndex - 1);
-            date = "(by: " + addSpaces(commands, byIndex + 1, commands.length - 1) + ")";
+            LocalDateTime date = HandleDate.parseDate(commands[byIndex + 1] + " " + commands[byIndex + 2]);
             tasks.add(new Deadline(task, false, type, date));
             break;
         case "event":
@@ -95,9 +105,9 @@ public class TaskManager {
                 throw new MissingDateException();
             }
             task = addSpaces(commands, 1, fromIndex - 1);
-            date = "(from: " + addSpaces(commands, fromIndex + 1, toIndex - 1)
-                    + " to: " + addSpaces(commands, toIndex + 1, commands.length - 1) + ")";
-            tasks.add(new Event(task, false, type, date));
+            LocalDateTime fromDate = HandleDate.parseDate(commands[fromIndex + 1] + " " +  commands[fromIndex + 2]);
+            LocalDateTime toDate = HandleDate.parseDate(commands[toIndex + 1] + " " + commands[toIndex + 2]);
+            tasks.add(new Event(task, false, type, fromDate, toDate));
             break;
             }
 
@@ -188,6 +198,30 @@ public class TaskManager {
 
     public int getTaskCounter () {
         return tasks.size();
+    }
+
+    public void printFoundTasks (String keyword) {
+        Printer.printLine();
+
+        int i = 1;
+        if (tasks.isEmpty()) {
+            System.out.println("Your list is empty bro lol");
+            Printer.printLine();
+            return;
+        }
+        System.out.println("Here's your tasks that has that keyword:");
+        for (Task a : tasks) {
+            String task = a.getTaskName();
+            if (task.contains(keyword)) {
+                System.out.print(i + ".");
+                a.printTask();
+                i++;
+            }
+        }
+        if (i == 1) {
+            System.out.println("Just kidding there is nothing to find idk");
+        }
+        Printer.printLine();
     }
 
 }

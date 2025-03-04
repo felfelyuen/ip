@@ -12,7 +12,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
+import java.time.LocalDateTime;
 
 /**
  * Class of methods to handle saving and loading of a file that contains the task list.
@@ -25,6 +27,7 @@ public class HandleFile {
      * Retrieves tasks from the saved file, and reformats it with reformatFile.
      * @return TaskManager object, which contains the list of tasks
      */
+
     public static TaskManager retrieveTasks() {
         TaskManager tasks;
         File f = new File("./saved.txt");
@@ -51,17 +54,14 @@ public class HandleFile {
                     tasks.addTask(todo);
                     break;
                 case "deadline":
-                    if (!(parts[3].contains("by:"))) {
-                        throw new CorruptedFileException();
-                    }
-                    Deadline deadline = new Deadline(parts[2], isCompleted, "deadline", parts[3]);
+                    LocalDateTime date = LocalDateTime.parse(parts[3]);
+                    Deadline deadline = new Deadline(parts[2], isCompleted, "deadline", date);
                     tasks.addTask(deadline);
                     break;
                 case "event":
-                    if ((!parts[3].contains("from:")) || (!parts[3].contains("to:"))) {
-                        throw new CorruptedFileException();
-                    }
-                    Event event = new Event(parts[2], isCompleted,"event", parts[3]);
+                    LocalDateTime fromDate = LocalDateTime.parse(parts[3]);
+                    LocalDateTime toDate = LocalDateTime.parse(parts[4]);
+                    Event event = new Event(parts[2], isCompleted,"event", fromDate, toDate);
                     tasks.addTask(event);
                     break;
                 default:
@@ -74,7 +74,7 @@ public class HandleFile {
         } catch (ArrayIndexOutOfBoundsException e) {
             Printer.printError("Error reading file, so no save file is loaded");
             return new TaskManager();
-        } catch (CorruptedFileException e) {
+        } catch (CorruptedFileException | DateTimeParseException e) {
             Printer.printError("The file might be corrupted, no saved list will be loaded");
             return new TaskManager();
         }
@@ -121,7 +121,7 @@ public class HandleFile {
                 break;
             case "event" :
                 Event event = (Event) task;
-                result += "//" + event.getDate();
+                result += "//" + event.getFromDate() + "//" + event.getToDate();
                 break;
             }
             result += System.lineSeparator();

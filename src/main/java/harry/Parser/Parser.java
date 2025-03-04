@@ -1,13 +1,11 @@
 package harry.Parser;
 
+import harry.Exceptions.*;
 import harry.Storage.HandleFile;
 import harry.TaskList.TaskManager;
-import harry.Exceptions.HandleNullTaskException;
-import harry.Exceptions.MissingDateException;
-import harry.Exceptions.MissingDateIndicatorException;
-import harry.Exceptions.MissingTaskException;
 import harry.Printer.Printer;
 
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 /**
@@ -32,6 +30,10 @@ public class Parser {
             Printer.printError("You are missing some indicators... so what date do you want");
         } catch (MissingDateException e) {
             Printer.printError("Where's your date... does time not affect you or—");
+        } catch (InvalidDateFormatException | ArrayIndexOutOfBoundsException | NumberFormatException e) {
+            Printer.printError("the date seems off... type it in something like 'YYYY-MM-DD HH:MM' format");
+        } catch (InvalidDateException e ) {
+            Printer.printError("What is this lol, this ain't a valid date");
         }
     }
 
@@ -77,6 +79,14 @@ public class Parser {
         }
     }
 
+    public static void processFinding (TaskManager list, String[] commands) {
+        if (commands.length < 2) {
+            Printer.printError("Uh... what do you want me to find");
+            return;
+        }
+        list.printFoundTasks(commands[1]);
+    }
+
     /**
      * Processes input of the user.
      * Turns input into array of Strings called commands.
@@ -93,6 +103,9 @@ public class Parser {
                 return;
             case "list" :
                 list.printTasks();
+                break;
+            case "find" :
+                processFinding(list, commands);
                 break;
             case "mark":
             case "unmark":

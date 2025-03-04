@@ -1,5 +1,7 @@
 package harry.TaskList;
 
+import java.time.LocalDateTime;
+
 /**
  * It corresponds to an event type of task in the user's list of tasks.
  * Event is inherited from the Task class, but also has the date attribute.
@@ -7,16 +9,20 @@ package harry.TaskList;
  */
 
 public class Event extends Task {
-    protected String date;
+    protected LocalDateTime fromDate;
+    protected LocalDateTime toDate;
 
-    public Event (String taskName, boolean isCompleted, String type, String date) {
+    public Event (String taskName, boolean isCompleted, String type, LocalDateTime fromDate, LocalDateTime toDate) {
         super(taskName, isCompleted, type);
-        this.date = date;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
     }
 
-    public String getDate() { return date; }
+    public LocalDateTime getFromDate() { return fromDate; }
 
-    public void setDate(String date) { this.date = date; }
+    public LocalDateTime getToDate() { return toDate; }
+
+    //public void setDate(LocalDateTime date) { this.date = date; }
 
     @Override
     public void printTask() {
@@ -26,7 +32,10 @@ public class Event extends Task {
         } else {
             System.out.print("[ ] ");
         }
-        System.out.print(taskName);
-        System.out.println(" " + date);
+        System.out.print(taskName + " from: ");
+        HandleDate.PrintDate(fromDate);
+        System.out.print("  to: ");
+        HandleDate.PrintDate(toDate);
+        System.out.println();
     }
 }

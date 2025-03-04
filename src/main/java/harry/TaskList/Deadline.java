@@ -6,17 +6,17 @@ package harry.TaskList;
  * It also clearly defines the printTask for deadlines specifically.
  */
 
-public class Deadline extends Task {
-    protected String date;
+import java.time.LocalDateTime;
 
-    public Deadline (String taskName, boolean isCompleted, String type, String date) {
+public class Deadline extends Task {
+    protected LocalDateTime date;
+
+    public Deadline (String taskName, boolean isCompleted, String type, LocalDateTime date) {
         super(taskName, isCompleted, type);
         this.date = date;
     }
 
-    public String getDate() { return date; }
-
-    public void setDate(String date) { this.date = date; }
+    public LocalDateTime getDate() { return date; }
 
     @Override
     public void printTask() {
@@ -26,7 +26,8 @@ public class Deadline extends Task {
         } else {
             System.out.print("[ ] ");
         }
-        System.out.print(taskName);
-        System.out.println(" " + date);
+        System.out.print(taskName + " by: ");
+        HandleDate.PrintDate(date);
+        System.out.println();
     }
 }

@@ -12,7 +12,7 @@ public class Task {
 
     public Task(String taskName, boolean isCompleted, String type) {
         this.taskName = taskName;
-        this.isCompleted = false;
+        this.isCompleted = isCompleted;
         this.type = type;
     }
 
