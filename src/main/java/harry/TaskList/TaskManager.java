@@ -200,6 +200,10 @@ public class TaskManager {
         return tasks.size();
     }
 
+    /**
+     * Prints tasks with the keyword
+     * @param keyword keyword to be searched for
+     */
     public void printFoundTasks (String keyword) {
         Printer.printLine();
 

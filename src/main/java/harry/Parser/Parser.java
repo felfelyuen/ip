@@ -79,6 +79,11 @@ public class Parser {
         }
     }
 
+    /**
+     * Finds the tasks with the keyword and prints it out
+     * @param list list of tasks to search in
+     * @param commands input by user with keyword
+     */
     public static void processFinding (TaskManager list, String[] commands) {
         if (commands.length < 2) {
             Printer.printError("Uh... what do you want me to find");
