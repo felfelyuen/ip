@@ -7,7 +7,7 @@ public class Task {
 
     public Task(String task, boolean isCompleted, String type) {
         this.task = task;
-        this.isCompleted = false;
+        this.isCompleted = isCompleted;
         this.type = type;
     }
 
@@ -24,8 +24,6 @@ public class Task {
     public void setCompleted(boolean completed) {
         isCompleted = completed;
     }
-
-    public void setType(String type) { this.type = type; }
 
     public void printTask() {}
 }
