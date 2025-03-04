@@ -8,8 +8,18 @@ import harry.Printer.Printer;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
+/**
+ * Class of methods to handle input from the user and executes corresponding actions.
+ */
+
 public class Parser {
 
+    /**
+     * Processes adding of a task into the list.
+     * Uses addTask from TaskManager class, and handles exceptions thrown.
+     * @param list TaskManager object that corresponds to list of tasks.
+     * @param commands Input of the user.
+     */
     public static void processAdding (TaskManager list, String[] commands) {
         try {
             list.addTask(commands, commands[0]);
@@ -27,6 +37,12 @@ public class Parser {
         }
     }
 
+    /**
+     * Processes marking and unmarking of a task into the list.
+     * Uses markAsCompleted from TaskManager class, and handles exceptions thrown.
+     * @param list TaskManager object that corresponds to list of tasks.
+     * @param commands Input of the user.
+     */
     public static void processMarking (TaskManager list, String[] commands) {
         try {
             int index = Integer.parseInt(commands[1]) - 1;
@@ -42,6 +58,12 @@ public class Parser {
         }
     }
 
+    /**
+     * Processes deleting of a task into the list.
+     * Uses deleteTask from TaskManager class, and handles exceptions thrown.
+     * @param list TaskManager object that corresponds to list of tasks.
+     * @param commands Input of the user.
+     */
     public static void processDeleting (TaskManager list, String[] commands) {
         try {
             int index = Integer.parseInt(commands[1]) - 1;
@@ -65,6 +87,12 @@ public class Parser {
         list.printFoundTasks(commands[1]);
     }
 
+    /**
+     * Processes input of the user.
+     * Turns input into array of Strings called commands.
+     * Determines what action the user wants to do and calls the relevant method.
+     * @param list TaskManager object that corresponds to list of tasks.
+     */
     public static void processInput(TaskManager list) {
         while ( true ) {
             Scanner in = new Scanner(System.in);

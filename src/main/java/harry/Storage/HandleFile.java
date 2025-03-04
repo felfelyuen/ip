@@ -16,11 +16,16 @@ import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.time.LocalDateTime;
 
-public class HandleFile {
+/**
+ * Class of methods to handle saving and loading of a file that contains the task list.
+ * The tasks in the File format is:
+ * TYPE//COMPLETED//TASK//DATE
+ */
 
-    /*
-    The file will be formatted as:
-    type//1//TASK//DATE
+public class HandleFile {
+    /**
+     * Retrieves tasks from the saved file, and reformats it with reformatFile.
+     * @return TaskManager object, which contains the list of tasks
      */
 
     public static TaskManager retrieveTasks() {
@@ -30,6 +35,11 @@ public class HandleFile {
         return tasks;
     }
 
+    /**
+     * Reformats the file into an array of tasks in Task format.
+     * @param f file to be reformatted.
+     * @return array of tasks.
+     */
     public static TaskManager reformatFile (File f) {
         TaskManager tasks = new TaskManager();
         try {
@@ -70,6 +80,11 @@ public class HandleFile {
         }
     }
 
+    /**
+     * Saves the list of tasks into the file saved.txt
+     * Formats the tasks first to be in the File format.
+     * @param tasks tasks to be saved
+     */
     public static void SaveList(TaskManager tasks) {
         File f = new File("./saved.txt");
         try {
@@ -83,6 +98,11 @@ public class HandleFile {
         }
     }
 
+    /**
+     * Formats tasks into the File format to be saved.
+     * @param tasks list of tasks to be formatted
+     * @return String of formatted tasks to be saved.
+     */
     public static String formatTasks (TaskManager tasks) {
         String result = "";
         String completed;
@@ -93,7 +113,7 @@ public class HandleFile {
             } else {
                 completed = "0";
             }
-            result += task.getType() + "//" + completed + "//" + task.getTask();
+            result += task.getType() + "//" + completed + "//" + task.getTaskName();
             switch (task.getType()) {
             case "deadline" :
                 Deadline deadline = (Deadline) task;

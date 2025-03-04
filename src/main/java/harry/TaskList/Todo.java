@@ -1,8 +1,13 @@
 package harry.TaskList;
 
+/**
+ * It corresponds to a to-do type of task in the user's list of tasks.
+ * Todo is inherited from the Task class, but with a clearly defined printTask for todos specifically.
+ */
+
 public class Todo extends Task {
-    public Todo (String task, boolean isCompleted, String type) {
-        super(task, isCompleted, type);
+    public Todo (String taskName, boolean isCompleted, String type) {
+        super(taskName, isCompleted, type);
     }
 
     @Override
@@ -13,6 +18,6 @@ public class Todo extends Task {
         } else {
             System.out.print("[ ] ");
         }
-        System.out.println(task);
+        System.out.println(taskName);
     }
 }

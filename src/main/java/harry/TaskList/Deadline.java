@@ -1,12 +1,18 @@
 package harry.TaskList;
 
+/**
+ * It corresponds to a deadline in the user's list of tasks.
+ * Deadline is inherited from the Task class, but also has the date attribute.
+ * It also clearly defines the printTask for deadlines specifically.
+ */
+
 import java.time.LocalDateTime;
 
 public class Deadline extends Task {
     protected LocalDateTime date;
 
-    public Deadline (String task, boolean isCompleted, String type, LocalDateTime date) {
-        super(task, isCompleted, type);
+    public Deadline (String taskName, boolean isCompleted, String type, LocalDateTime date) {
+        super(taskName, isCompleted, type);
         this.date = date;
     }
 
@@ -20,7 +26,7 @@ public class Deadline extends Task {
         } else {
             System.out.print("[ ] ");
         }
-        System.out.print(task + " by: ");
+        System.out.print(taskName + " by: ");
         HandleDate.PrintDate(date);
         System.out.println();
     }

@@ -1,18 +1,23 @@
 package harry.TaskList;
 
+/**
+ * Represents a task in the user's list of tasks. The Task object includes the taskName,
+ * whether it is completed, and the type of task.
+ */
+
 public class Task {
-    protected String task;
+    protected String taskName;
     protected boolean isCompleted;
     protected String type;
 
-    public Task(String task, boolean isCompleted, String type) {
-        this.task = task;
+    public Task(String taskName, boolean isCompleted, String type) {
+        this.taskName = taskName;
         this.isCompleted = isCompleted;
         this.type = type;
     }
 
-    public String getTask() {
-        return task;
+    public String getTaskName() {
+        return taskName;
     }
 
     public String getType() { return type; }
