@@ -29,17 +29,20 @@ Displays the list of tasks to you
 ### `mark` , `unmark`
 
 Marks a task as completed or incomplete.
+Example:
+`mark 1`
 
 ### `find`
 
 Finds the tasks that contains the inputted keyword
-
 Example:
 `find book`
 
 ### `delete`
 
 Deletes a task off the tasklist
+Example:
+`delete 2`
 
 ### `bye`
 
