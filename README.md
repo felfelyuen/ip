@@ -1,26 +1,48 @@
-# Harry project template
+# Harry CLI User Guide
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+This is a user guide on how to use Harry, your new, slightly deranged, CLI to help(?) you with your task handling.
 
-## Setting up in Intellij
+## **Harry's features**
 
-Prerequisites: JDK 17, update Intellij to the most recent version.
+###`todo` , `deadline` , `event`
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 17** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/Harry.java` file, right-click it, and choose `Run Harry.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-   Hello from
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
+Adds a task of that nature into your task list.
+`deadline`  requires a "/by" date to be inputted as well.
+`event` also requires a "`/from`" and "`/to`" date to be inputted.
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+Example: 
+```
+deadline do homework /by 2025-05-03 23:59
+event go to wedding  /from 03062025 1200 /to 03062025 2200
+```
+
+**Note:** there are only a few formats of the inputted date that is accepted:
+YYYYMMDD or DDMMYYYY or YYYY-MM-DD or DD-MM-YYYY, and HH:MM or HHMM.
+Any permutation of the above formats is accepted.
+Example of accepted date format:
+`YYYYMMDD HH:MM`
+
+###`list`
+
+Displays the list of tasks to you
+
+###`mark` , `unmark`
+
+Marks a task as completed or incomplete.
+
+###`find`
+
+Finds the tasks that contains the inputted keyword
+
+Example:
+`find book`
+
+###`delete`
+
+Deletes a task off the tasklist
+
+###`bye`
+
+Exits the program
+
+Don't worry about 
