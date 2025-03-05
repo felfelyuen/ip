@@ -4,7 +4,7 @@ This is a user guide on how to use Harry, your new, slightly deranged, CLI to he
 
 ## **Harry's features**
 
-###`todo` , `deadline` , `event`
+### `todo` , `deadline` , `event`
 
 Adds a task of that nature into your task list.
 `deadline`  requires a "/by" date to be inputted as well.
@@ -22,27 +22,27 @@ Any permutation of the above formats is accepted.
 Example of accepted date format:
 `YYYYMMDD HH:MM`
 
-###`list`
+### `list`
 
 Displays the list of tasks to you
 
-###`mark` , `unmark`
+### `mark` , `unmark`
 
 Marks a task as completed or incomplete.
 
-###`find`
+### `find`
 
 Finds the tasks that contains the inputted keyword
 
 Example:
 `find book`
 
-###`delete`
+### `delete`
 
 Deletes a task off the tasklist
 
-###`bye`
+### `bye`
 
 Exits the program
 
-Don't worry about 
+Don't worry about data being saved, it saves automatically every time into a text file, and is loaded up every time you log on to the application!
