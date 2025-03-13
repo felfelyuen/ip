@@ -1,7 +1,13 @@
-package harry.TaskList;
+package harry.taskList;
 
-import harry.Exceptions.*;
-import harry.Printer.Printer;
+import harry.exceptions.InvalidDateFormatException;
+import harry.exceptions.MissingDateException;
+import harry.exceptions.MissingDateIndicatorException;
+import harry.exceptions.MissingTaskException;
+import harry.exceptions.InvalidDateException;
+import harry.exceptions.HandleNullTaskException;
+
+import harry.printer.Printer;
 
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -14,7 +20,6 @@ import java.time.LocalDateTime;
  */
 
 public class TaskManager {
-
     private ArrayList<Task> tasks = new ArrayList<>();
 
     /**
@@ -40,13 +45,95 @@ public class TaskManager {
      * @param keyword the keyword
      * @return the index of the keyword, returns -1 if keyword is not in array
      */
-    public static int search (String[] array, String keyword) {
+    public static int search(String[] array, String keyword) {
         for (int i = 0; i < array.length; i++) {
             if (array[i].equals(keyword)) {
                 return i;
             }
         }
         return -1;
+    }
+
+    /**
+     * Adds a new Todo task to the task list.
+     *
+     * @param commands An array of strings representing the user input command.
+     *                 The first element should be "todo", followed by the task description.
+     * @throws MissingTaskException If the task description is missing.
+     */
+    public void addTodo(String [] commands) throws MissingTaskException {
+        if (commands.length == 1) {
+            throw new MissingTaskException();
+        }
+        String task = addSpaces(commands, 1, commands.length - 1);
+        tasks.add(new Todo(task, false, "todo"));
+    }
+
+    /**
+     * Adds a new Deadline task to the task list.
+     *
+     * @param commands An array of strings representing the user input command.
+     *                 It should include "/by" followed by a valid date.
+     * @throws MissingTaskException If the task description is missing.
+     * @throws MissingDateIndicatorException If the "/by" keyword is missing.
+     * @throws MissingDateException If the date is not provided after "/by".
+     * @throws InvalidDateFormatException If the date format is incorrect.
+     * @throws InvalidDateException If the date provided is invalid.
+     */
+    public void addDeadline(String [] commands)
+            throws MissingTaskException,
+            MissingDateIndicatorException,
+            MissingDateException,
+            InvalidDateFormatException,
+            InvalidDateException {
+        int byIndex = search(commands, "/by");
+        if (byIndex == 1) {
+            throw new MissingTaskException();
+        }
+        if (byIndex == -1) {
+            throw new MissingDateIndicatorException();
+        }
+        if (byIndex == commands.length - 1) {
+            throw new MissingDateException();
+        }
+
+        String task = addSpaces(commands, 1, byIndex - 1);
+        LocalDateTime date = HandleDate.parseDate(commands[byIndex + 1] + " " + commands[byIndex + 2]);
+        tasks.add(new Deadline(task, false, "deadline", date));
+    }
+
+    /**
+     * Adds a new Event task to the task list.
+     *
+     * @param commands An array of strings representing the user input command.
+     *                 It should include "/from" followed by a start date and "/to" followed by an end date.
+     * @throws MissingTaskException If the task description is missing.
+     * @throws MissingDateIndicatorException If the "/from" or "/to" keyword is missing.
+     * @throws MissingDateException If the dates are not provided after "/from" or "/to".
+     * @throws InvalidDateFormatException If the date format is incorrect.
+     * @throws InvalidDateException If the date provided is invalid.
+     */
+    public void addEvent(String[] commands)
+            throws MissingTaskException,
+            MissingDateIndicatorException,
+            InvalidDateFormatException,
+            InvalidDateException,
+            MissingDateException {
+        int fromIndex = search(commands, "/from");
+        int toIndex = search(commands, "/to");
+        if (fromIndex == 1) {
+            throw new MissingTaskException();
+        }
+        if (fromIndex == -1 || toIndex == -1) {
+            throw new MissingDateIndicatorException();
+        }
+        if (toIndex == commands.length - 1 || fromIndex == toIndex - 1) {
+            throw new MissingDateException();
+        }
+        String task = addSpaces(commands, 1, fromIndex - 1);
+        LocalDateTime fromDate = HandleDate.parseDate(commands[fromIndex + 1] + " " +  commands[fromIndex + 2]);
+        LocalDateTime toDate = HandleDate.parseDate(commands[toIndex + 1] + " " + commands[toIndex + 2]);
+        tasks.add(new Event(task, false, "event", fromDate, toDate));
     }
 
     /**
@@ -57,6 +144,11 @@ public class TaskManager {
      * @throws MissingTaskException If there is no task
      * @throws MissingDateIndicatorException If there are no indicators for the dates eg: "/by"
      * @throws MissingDateException If there is no date to be inputted
+     * @throws DateTimeParseException If the String to parse into DateTime contains irregularities.
+     * @throws ArrayIndexOutOfBoundsException If the String has a smaller length than expected
+     * @throws InvalidDateFormatException If the String is of a different format, ie: YYYY/MM/DD is not accepted.
+     * @throws InvalidDateException If an invalid date is submitted, ie: month is 16.
+     * @throws NumberFormatException If a String cannot be formatted into a number.
      */
     public void addTask(String[] commands, String type)
             throws MissingTaskException,
@@ -68,49 +160,30 @@ public class TaskManager {
             InvalidDateException,
             NumberFormatException
             {
-        String task;
         switch (type) {
         case "todo":
-            if (commands.length == 1) {
-                throw new MissingTaskException();
-            }
-            task = addSpaces(commands, 1, commands.length - 1);
-            tasks.add(new Todo(task, false, type));
+            addTodo(commands);
             break;
         case "deadline":
-            int byIndex = search(commands, "/by");
-            if (byIndex == 1) {
-                throw new MissingTaskException();
-            }
-            if (byIndex == -1) {
-                throw new MissingDateIndicatorException();
-            }
-            if (byIndex == commands.length - 1) {
-                throw new MissingDateException();
-            }
-            task = addSpaces(commands, 1, byIndex - 1);
-            LocalDateTime date = HandleDate.parseDate(commands[byIndex + 1] + " " + commands[byIndex + 2]);
-            tasks.add(new Deadline(task, false, type, date));
+            addDeadline(commands);
             break;
         case "event":
-            int fromIndex = search(commands, "/from");
-            int toIndex = search(commands, "/to");
-            if (fromIndex == 1) {
-                throw new MissingTaskException();
-            }
-            if (fromIndex == -1 || toIndex == -1) {
-                throw new MissingDateIndicatorException();
-            }
-            if (toIndex == commands.length - 1 || fromIndex == toIndex - 1) {
-                throw new MissingDateException();
-            }
-            task = addSpaces(commands, 1, fromIndex - 1);
-            LocalDateTime fromDate = HandleDate.parseDate(commands[fromIndex + 1] + " " +  commands[fromIndex + 2]);
-            LocalDateTime toDate = HandleDate.parseDate(commands[toIndex + 1] + " " + commands[toIndex + 2]);
-            tasks.add(new Event(task, false, type, fromDate, toDate));
+            addEvent(commands);
             break;
-            }
+        }
+        printTaskAdded();
+    }
 
+    /**
+     * An alternative to addTask, where there is a Task object to be added already.
+     * Used by some methods in HandleFile class, for saving and loading the tasklist.
+     * @param task the task to be added
+     */
+    public void addTask(Task task) {
+        tasks.add(task);
+    }
+
+    public void printTaskAdded() {
         Printer.printLine();
         System.out.println("Okay, I added it here, should I add 'touch grass' to the list as well?");
         tasks.get(tasks.size() - 1).printTask();
@@ -123,21 +196,12 @@ public class TaskManager {
     }
 
     /**
-     * An alternative to addTask, where there is a Task object to be added already.
-     * Used by some methods in HandleFile class, for saving and loading the tasklist.
-     * @param task the task to be added
-     */
-    public void addTask (Task task) {
-        tasks.add(task);
-    }
-
-    /**
      * Marks task as completed, and prints out corresponding messages to user.
      * @param index index of task to be deleted
      * @param completed to mark whether it is completed
      * @throws HandleNullTaskException If the list does not have the task to be marked
      */
-    public void markAsCompleted (int index, boolean completed) throws HandleNullTaskException {
+    public void markAsCompleted(int index, boolean completed) throws HandleNullTaskException {
         if (index + 1 > tasks.size()) {
             throw new HandleNullTaskException();
         }
@@ -177,7 +241,7 @@ public class TaskManager {
     /**
      * Prints all the tasks in the list in sequential order.
      */
-    public void printTasks () {
+    public void printTasks() {
         Printer.printLine();
         if (tasks.isEmpty()) {
             System.out.println("There is nothing in the list lol");
@@ -191,12 +255,11 @@ public class TaskManager {
         Printer.printLine();
     }
 
-
-    public Task getTask (int i) {
+    public Task getTask(int i) {
         return tasks.get(i);
     }
 
-    public int getTaskCounter () {
+    public int getTaskCounter() {
         return tasks.size();
     }
 
@@ -204,7 +267,7 @@ public class TaskManager {
      * Prints tasks with the keyword
      * @param keyword keyword to be searched for
      */
-    public void printFoundTasks (String keyword) {
+    public void printFoundTasks(String keyword) {
         Printer.printLine();
 
         int i = 1;
@@ -227,5 +290,4 @@ public class TaskManager {
         }
         Printer.printLine();
     }
-
 }

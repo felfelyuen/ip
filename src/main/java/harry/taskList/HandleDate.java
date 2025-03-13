@@ -1,7 +1,7 @@
-package harry.TaskList;
+package harry.taskList;
 
-import harry.Exceptions.InvalidDateException;
-import harry.Exceptions.InvalidDateFormatException;
+import harry.exceptions.InvalidDateException;
+import harry.exceptions.InvalidDateFormatException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -112,7 +112,7 @@ public class HandleDate {
      * @return String of YYYY-MM-DD format
      * @throws InvalidDateException If date is invalid, ie month == 16
      */
-    public static String formatYearWDashes (String [] yearParts) throws InvalidDateException {
+    public static String formatYearWDashes(String [] yearParts) throws InvalidDateException {
         String formattedDate;
         //either YYYY-MM-DD format or DD-MM-YYYY format
         if (yearParts[0].length() == 4) {

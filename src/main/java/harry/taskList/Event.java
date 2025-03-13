@@ -1,4 +1,4 @@
-package harry.TaskList;
+package harry.taskList;
 
 import java.time.LocalDateTime;
 
@@ -7,12 +7,12 @@ import java.time.LocalDateTime;
  * Event is inherited from the Task class, but also has the date attribute.
  * It also clearly defines the printTask for events specifically.
  */
-
 public class Event extends Task {
     protected LocalDateTime fromDate;
     protected LocalDateTime toDate;
+    static final String EVENT_INDICATOR = "[E]";
 
-    public Event (String taskName, boolean isCompleted, String type, LocalDateTime fromDate, LocalDateTime toDate) {
+    public Event(String taskName, boolean isCompleted, String type, LocalDateTime fromDate, LocalDateTime toDate) {
         super(taskName, isCompleted, type);
         this.fromDate = fromDate;
         this.toDate = toDate;
@@ -22,15 +22,13 @@ public class Event extends Task {
 
     public LocalDateTime getToDate() { return toDate; }
 
-    //public void setDate(LocalDateTime date) { this.date = date; }
-
     @Override
     public void printTask() {
-        System.out.print("[E]");
+        System.out.print(EVENT_INDICATOR);
         if (isCompleted) {
-            System.out.print("[X] ");
+            System.out.print(COMPLETED_TO_PRINT);
         } else {
-            System.out.print("[ ] ");
+            System.out.print(NOT_COMPLETED_TO_PRINT);
         }
         System.out.print(taskName + " from: ");
         HandleDate.PrintDate(fromDate);

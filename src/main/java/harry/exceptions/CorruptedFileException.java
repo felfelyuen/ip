@@ -1,4 +1,4 @@
-package harry.Exceptions;
+package harry.exceptions;
 
 public class CorruptedFileException extends Exception {
 }

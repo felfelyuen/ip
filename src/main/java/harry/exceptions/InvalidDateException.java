@@ -1,3 +1,3 @@
-package harry.Exceptions;
+package harry.exceptions;
 
 public class InvalidDateException extends Exception {}

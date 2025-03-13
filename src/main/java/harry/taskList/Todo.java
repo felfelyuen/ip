@@ -1,4 +1,4 @@
-package harry.TaskList;
+package harry.taskList;
 
 /**
  * It corresponds to a to-do type of task in the user's list of tasks.
@@ -6,17 +6,19 @@ package harry.TaskList;
  */
 
 public class Todo extends Task {
-    public Todo (String taskName, boolean isCompleted, String type) {
+    public Todo(String taskName, boolean isCompleted, String type) {
         super(taskName, isCompleted, type);
     }
 
+    static final String TASK_INDICATOR = "[T]";
+
     @Override
     public void printTask() {
-        System.out.print("[T]");
+        System.out.print(TASK_INDICATOR);
         if (isCompleted) {
-            System.out.print("[X] ");
+            System.out.print(COMPLETED_TO_PRINT);
         } else {
-            System.out.print("[ ] ");
+            System.out.print(NOT_COMPLETED_TO_PRINT);
         }
         System.out.println(taskName);
     }

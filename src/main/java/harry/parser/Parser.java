@@ -1,17 +1,21 @@
-package harry.Parser;
+package harry.parser;
 
-import harry.Exceptions.*;
-import harry.Storage.HandleFile;
-import harry.TaskList.TaskManager;
-import harry.Printer.Printer;
+import harry.exceptions.InvalidDateFormatException;
+import harry.exceptions.MissingDateException;
+import harry.exceptions.MissingDateIndicatorException;
+import harry.exceptions.MissingTaskException;
+import harry.exceptions.InvalidDateException;
+import harry.exceptions.HandleNullTaskException;
 
-import java.time.format.DateTimeParseException;
+import harry.storage.HandleFile;
+import harry.taskList.TaskManager;
+import harry.printer.Printer;
+
 import java.util.Scanner;
 
 /**
  * Class of methods to handle input from the user and executes corresponding actions.
  */
-
 public class Parser {
 
     /**
@@ -20,7 +24,7 @@ public class Parser {
      * @param list TaskManager object that corresponds to list of tasks.
      * @param commands Input of the user.
      */
-    public static void processAdding (TaskManager list, String[] commands) {
+    public static void processAdding(TaskManager list, String[] commands) {
         try {
             list.addTask(commands, commands[0]);
             HandleFile.SaveList(list);
@@ -43,7 +47,7 @@ public class Parser {
      * @param list TaskManager object that corresponds to list of tasks.
      * @param commands Input of the user.
      */
-    public static void processMarking (TaskManager list, String[] commands) {
+    public static void processMarking(TaskManager list, String[] commands) {
         try {
             int index = Integer.parseInt(commands[1]) - 1;
             list.markAsCompleted(index, commands[0].equals("mark"));
@@ -64,7 +68,7 @@ public class Parser {
      * @param list TaskManager object that corresponds to list of tasks.
      * @param commands Input of the user.
      */
-    public static void processDeleting (TaskManager list, String[] commands) {
+    public static void processDeleting(TaskManager list, String[] commands) {
         try {
             int index = Integer.parseInt(commands[1]) - 1;
             list.deleteTask(index);
@@ -84,7 +88,7 @@ public class Parser {
      * @param list list of tasks to search in
      * @param commands input by user with keyword
      */
-    public static void processFinding (TaskManager list, String[] commands) {
+    public static void processFinding(TaskManager list, String[] commands) {
         if (commands.length < 2) {
             Printer.printError("Uh... what do you want me to find");
             return;
@@ -113,6 +117,7 @@ public class Parser {
                 processFinding(list, commands);
                 break;
             case "mark":
+                //Fallthrough
             case "unmark":
                 if (commands.length <= 2) {
                     processMarking(list, commands);
@@ -128,7 +133,9 @@ public class Parser {
                 }
                 break;
             case "todo":
+                //Fallthrough
             case "deadline":
+                //Fallthrough
             case "event":
                 processAdding(list, commands);
                 break;

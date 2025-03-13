@@ -1,4 +1,4 @@
-package harry.Printer;
+package harry.printer;
 
 /**
  * Class of methods to print out messages.
@@ -25,7 +25,7 @@ public class Printer {
         System.out.println(logo);
     }
 
-    public static void printStartingPage () {
+    public static void printStartingPage() {
         printLine();
         printLogo();
         printLine();
@@ -37,7 +37,7 @@ public class Printer {
         printLine();
     }
 
-    public static void printGoodbye () {
+    public static void printGoodbye() {
         printLine();
         System.out.println(
                 "G O O D B Y E ‼‼‼‼‼\n" +
@@ -45,10 +45,9 @@ public class Printer {
         printLine();
     }
 
-    public static void printError (String message) {
+    public static void printError(String message) {
         printLine();
         System.out.println("Oh no you made a whoopsie: " + message);
         printLine();
     }
-
 }

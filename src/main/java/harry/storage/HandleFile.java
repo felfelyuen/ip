@@ -1,12 +1,12 @@
-package harry.Storage;
+package harry.storage;
 
-import harry.Exceptions.CorruptedFileException;
-import harry.TaskList.Deadline;
-import harry.TaskList.Event;
-import harry.TaskList.Task;
-import harry.TaskList.Todo;
-import harry.Printer.Printer;
-import harry.TaskList.TaskManager;
+import harry.exceptions.CorruptedFileException;
+import harry.taskList.Deadline;
+import harry.taskList.Event;
+import harry.taskList.Task;
+import harry.taskList.Todo;
+import harry.printer.Printer;
+import harry.taskList.TaskManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,13 +21,13 @@ import java.time.LocalDateTime;
  * The tasks in the File format is:
  * TYPE//COMPLETED//TASK//DATE
  */
-
 public class HandleFile {
+    static final String SEPARATOR = "//";
+
     /**
      * Retrieves tasks from the saved file, and reformats it with reformatFile.
      * @return TaskManager object, which contains the list of tasks
      */
-
     public static TaskManager retrieveTasks() {
         TaskManager tasks;
         File f = new File("./saved.txt");
@@ -40,13 +40,13 @@ public class HandleFile {
      * @param f file to be reformatted.
      * @return array of tasks.
      */
-    public static TaskManager reformatFile (File f) {
+    public static TaskManager reformatFile(File f) {
         TaskManager tasks = new TaskManager();
         try {
             Scanner s = new Scanner(f);
             while (s.hasNext()) {
                 String line = s.nextLine();
-                String[] parts = line.split("//");
+                String[] parts = line.split(SEPARATOR);
                 boolean isCompleted = parts[1].equals("X");
                 switch (parts[0]) {
                 case "todo":
@@ -103,25 +103,21 @@ public class HandleFile {
      * @param tasks list of tasks to be formatted
      * @return String of formatted tasks to be saved.
      */
-    public static String formatTasks (TaskManager tasks) {
+    public static String formatTasks(TaskManager tasks) {
         String result = "";
         String completed;
         for (int i = 0; i < tasks.getTaskCounter(); i++) {
             Task task = tasks.getTask(i);
-            if (task.isCompleted()) {
-                completed = "X";
-            } else {
-                completed = "0";
-            }
-            result += task.getType() + "//" + completed + "//" + task.getTaskName();
+            completed = task.getCompleted();
+            result += task.getType() + SEPARATOR + completed + SEPARATOR + task.getTaskName();
             switch (task.getType()) {
             case "deadline" :
                 Deadline deadline = (Deadline) task;
-                result += "//" + deadline.getDate();
+                result += SEPARATOR + deadline.getDate();
                 break;
             case "event" :
                 Event event = (Event) task;
-                result += "//" + event.getFromDate() + "//" + event.getToDate();
+                result += SEPARATOR + event.getFromDate() + SEPARATOR + event.getToDate();
                 break;
             }
             result += System.lineSeparator();
