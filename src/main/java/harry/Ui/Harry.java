@@ -19,8 +19,3 @@ public class Harry {
         Printer.printGoodbye();
     }
 }
-
-//todo mayhaps move printing messages all to printer? (from taskmanager)
-//todo recheck all the code quality and code standards
-//todo recheck OOP and abstraction
-//todo okay after allat should be okay for release
